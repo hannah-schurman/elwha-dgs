@@ -56,19 +56,23 @@ for file in model_files:
     gravel = percentages.get(1, 0)
     cobble = percentages.get(2, 0)
     coarse_total = gravel + cobble
-    row['sand_to_coarse_ratio'] = sand / coarse_total if coarse_total > 0 else np.nan
+    row['sand_to_coarse_ratio'] = (sand / (sand + coarse_total)) if (sand + coarse_total) > 0 else np.nan
 
     all_data.append(row)
 
 df_update = pd.DataFrame(all_data)
 
-# Merge with existing Excel file, updating by filename
-if not df_excel.empty:
-    df_merged = pd.concat([df_excel, df_update], ignore_index=True)
-    df_merged.drop_duplicates(subset=['file'], keep='last', inplace=True)
-else:
-    df_merged = df_update
+# create filename column
+df_update["Filename"] = df_update["file"].str.replace(r"_merged_res\.npz$", "", regex=True)
+df_excel["Filename"] = df_excel["Filename"].astype(str)
+df_update["Filename"] = df_update["Filename"].astype(str)
 
-# Save back to Excel
+# merge dataframes
+df_merged = df_excel.merge(
+    df_update[["Filename", "class_0", "class_1", "class_2", "class_3", "class_4", "sand_to_coarse_ratio"]],
+    on="Filename",
+    how="left"
+)
+
 df_merged.to_excel(excel_file_path, index=False)
 print(f"Excel file updated: {excel_file_path}")
