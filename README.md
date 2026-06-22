@@ -4,7 +4,9 @@
 This repository contains codebases for analysis techniques aimed at characterizing beach sediments and investigating the long-term evolution of a coastal system impacted by human intervention. The goal of this project is to use image analysis methods for both qualitative and quantitative assessments of mixed beach sediments over time.
 
 **Current Updates:**  
-As of now, the repository includes our Python Point Count program, which calculates individual grain sizes from image data. Additional projects and tools will be added as the work evolves.
+As of now, the repository includes:
+Python Point Count program: calculates individual grain sizes from image data
+Final Ensemble Model Files for SegmentationGym: Binary and Multiclass weights and config files. Python files for segmenting 
 
 ## Projects
 
